@@ -1,6 +1,5 @@
 #ifndef CHTEXT
 #define CHTEXT
-#define CHARS_TO_GET_AT_A_TIME 100
 #include <string>
 #include <iostream>
 #include <vector>
@@ -147,11 +146,6 @@ class chText {
         createFromString(fileContents);
         return true;
     }
-
-    // [] for setting
-    //unsigned long & operator [](int i) {return registers[i];}
-    // conversion to A (type-cast operator)
-    //operator A() {return A();}
 };
 
 ostream & operator << (ostream &out, const chText &c){
