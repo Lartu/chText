@@ -27,6 +27,9 @@ There are four differences (that I can think of) with regular C++ strings:
  - You cannot iterate over a chText using iterators nor for each loops.
  - In certain situations (like in `((chText)"你好!")[0]` above) you have to cast a regular string to chText in order for the UTF-8 stuff to work.
  - The `chText` type also includes a `loadFile` method to load a text file into a `chText`. You can use it like `chText myText.loadFile("myFile.txt");`. That method returns true if the file was successfully loaded (and false otherwise).
+
+ ## Projects using chText
+ [The LDPL Programming Language](https://github.com/lartu/ldpl) uses chText as its core text type.
  
  ## License
 This license has been created by Martín del Río and released under the MIT License. Use it however you like!
