@@ -7,7 +7,7 @@ C++ strings don't support UTF-8 characters out of the box. This results in code 
 
 ## How to add chText to your project
 
-Just add `include "chText.hpp"` to your souce file(s) and you are done.
+Just add `#include "chText.hpp"` to your souce file(s) and you are done.
 
 ## How do I use chText?
 
