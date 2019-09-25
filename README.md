@@ -29,4 +29,4 @@ There are four differences (that I can think of) with regular C++ strings:
  - The `chText` type also includes a `loadFile` method to load a text file into a `chText`. You can use it like `chText myText.loadFile("myFile.txt");`. That method returns true if the file was successfully loaded (and false otherwise).
  
  ## License
-This license has been created by Marín del Río and released under the MIT License. Use it however you like!
+This license has been created by Martín del Río and released under the MIT License. Use it however you like!
