@@ -5,12 +5,15 @@
 #include <vector>
 #include <fstream>
 #include <sstream>
+#include <string.h>
 
 using namespace std;
 
 class chText {
     private:
     vector<string> buffer;
+    string stringRep;
+
     // Gets length of utf8-encoded c++ string
     size_t chText_get_str_utf8length(const string cstr){
         size_t len = cstr.size();
@@ -95,6 +98,19 @@ class chText {
     size_t size(){
         return buffer.size();
     }
+    bool empty(){
+        return buffer.empty();
+    }
+    size_t length(){
+        return size();
+    }
+    string str_rep(){
+        stringRep = "";
+        for(size_t i = 0; i < size(); ++i){
+            stringRep += buffer[i];
+        }
+        return stringRep;
+    }
     // default constructor
     chText(){}
     // conversion from string (constructor):
@@ -124,6 +140,19 @@ class chText {
         createFromChar(x);
         return *this;
     }
+    // conversion from char (constructor):
+    chText (char x) {
+        string a = "";
+        a += x;
+        createFromString(a);
+    }
+    // conversion from char (assignment):
+    chText& operator= (char x) {
+        string a = "";
+        a += x;
+        createFromString(a);
+        return *this;
+    }
     // [] for reading
     chText operator [](size_t i) const {
         if(i >= buffer.size()){
@@ -132,6 +161,14 @@ class chText {
         }
         chText c = buffer[i];
         return c;
+    }
+    // [] for setting
+    string & operator [](int i) {
+        if(i >= buffer.size()){
+            cout << "Out-of-bounds index access." << endl;
+            exit(1);
+        }
+        return buffer[i];
     }
     // Output operator
     friend ostream & operator << (ostream &out, const chText &c);
@@ -151,6 +188,20 @@ class chText {
     friend bool operator>(const chText &c1, const chText &c2);
     // Equality operator
     friend bool operator==(const chText& ch1, const chText& ch2);
+    // Equality operator
+    friend bool operator==(const chText& ch1, const string& ch2);
+    // Equality operator
+    friend bool operator==(const chText& ch1, const char * ch2);
+    // Equality operator
+    friend bool operator==(const string& ch2, const chText& ch1);
+    // Equality operator
+    friend bool operator==(const char * ch2, const chText& ch1);
+    // Equality operator
+    friend bool operator==(const chText& ch1, const char ch2);
+    // Equality operator
+    friend bool operator==(const char ch2, const chText& ch1);
+    // Equality operator
+    friend bool operator!=(const chText& ch1, const chText& ch2);
     // Load a file into this chText
     bool loadFile(const string &fileName){
         string line;
@@ -160,7 +211,7 @@ class chText {
         {
             while ( getline (myfile,line) )
             {
-                fileContents += line + "\n";
+                fileContents += line + "\\n";
             }
             myfile.close();
         }
@@ -254,6 +305,47 @@ class chText {
         }
         return stod(number);
     }
+
+    chText substr(size_t from, size_t count){
+        chText newText;
+        for(size_t i = from; i < from + count; ++i){
+            if(i >= buffer.size()) break;
+            newText.buffer.push_back(buffer[i]);
+        }
+        return newText;
+    }
+
+    chText & erase(size_t from, size_t count){
+        for(size_t i = 0; i < count; ++i)
+            buffer.erase(buffer.begin() + from);
+        return *this;
+    }
+
+    chText substr(size_t from){
+        chText newText;
+        for(size_t i = from; i < from + buffer.size(); ++i){
+            if(i >= buffer.size()) break;
+            newText.buffer.push_back(buffer[i]);
+        }
+        return newText;
+    }
+
+    int compare(size_t from, size_t count, chText other){
+        chText newText;
+        for(size_t i = from; i < from + count; ++i){
+            if(i >= buffer.size()) break;
+            newText.buffer.push_back(buffer[i]);
+        }
+        if (newText == other) return 0;
+        if (newText.size() < other.size()) return -1;
+        else return 1;
+    }
+
+    int compare(chText other){
+        if (*this == other) return 0;
+        if (this->size() < other.size()) return -1;
+        else return 1;
+    }
 };
 
 ostream & operator << (ostream &out, const chText &c){
@@ -329,6 +421,16 @@ bool operator==(const chText& ch1, const char * c2){
     return ch1 == ch2;
 }
 
+bool operator==(const char c1, const chText& ch2){
+    const chText ch1 = c1;
+    return ch1 == ch2;
+}
+
+bool operator==(const chText& ch1, const char c2){
+    const chText ch2 = c2;
+    return ch1 == ch2;
+}
+
 bool operator<(const chText &c1, const chText &c2){
 	size_t max = c1.buffer.size() > c2.buffer.size() ? c2.buffer.size() : c1.buffer.size();
     for(size_t i = 0; i < max; ++i){
@@ -345,6 +447,10 @@ bool operator>(const chText &c1, const chText &c2){
         else if (c1.buffer[i] < c2.buffer[i]) return false;
     }
     return false;
+}
+
+bool operator!=(const chText& ch1, const chText& ch2){
+    return ch1.buffer != ch2.buffer;
 }
 
 #endif
