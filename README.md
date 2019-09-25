@@ -22,10 +22,11 @@ cout << (chText) "你好!" + " How are you?" << endl;
 //Etc.
 ```
 
-There are three differences (that I can think of) with regular C++ strings:
+There are four differences (that I can think of) with regular C++ strings:
  - When using the `[]` operator with a chText, you get another chText as a result, not a char.
  - You cannot iterate over a chText using iterators nor for each loops.
  - In certain situations (like in `((chText)"你好!")[0]` above) you have to cast a regular string to chText in order for the UTF-8 stuff to work.
+ - The `chText` type also includes the `loadFile` method, to load a text file into a `chText`. You can use it like `chText myText.loadFile("myFile.txt");`. That method returns true if the file was successfully loaded (and false otherwise).
  
  ## License
 This license has been created by Marín del Río and released under the MIT License. Use it however you like!
