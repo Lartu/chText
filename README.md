@@ -1,5 +1,5 @@
 # 🌸 chText 🌸
-chText is a string library for C++ that provides the `chText` type: a string type used just like regular C++ strings but with UTF-8 support.
+chText (*cherry text*) is a string library for C++ that provides the `chText` type: a string type used just like regular C++ strings but with UTF-8 support.
 
 ## Why chText
 
